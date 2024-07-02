@@ -2,6 +2,30 @@ def longest_consecutive_sequence(nums):
     if not nums:
         return []
 
+    max_sequence = []
+    current_sequence = []
+
+    for i in range(len(nums)):
+        if not current_sequence or nums[i] == current_sequence[-1] + 1:
+            current_sequence.append(nums[i])
+        elif nums[i] != current_sequence[-1]:  # Avoid duplicates in the sequence
+            if len(current_sequence) > len(max_sequence):
+                max_sequence = current_sequence
+            current_sequence = [nums[i]]
+
+    # Final check at the end of the loop
+    if len(current_sequence) > len(max_sequence):
+        max_sequence = current_sequence
+
+    return max_sequence
+
+# Example usage:
+nums = [-9, -8, 7, -4, -3, -2, 0, 8, 6, 5, 4, 1, 2, 3, 4, 5, 0, 7, 6]
+print(longest_consecutive_sequence(nums))  # Output: [1, 2, 3, 4, 5]
+ longest_consecutive_sequence(nums):
+    if not nums:
+        return []
+
     # Dictionary to store the length of sequences ending at each number
     sequence_lengths = {}
     max_length = 0
