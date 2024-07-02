@@ -1,4 +1,38 @@
-require 'optparse'
+def longest_consecutive_sequence(nums):
+    if not nums:
+        return []
+
+    # Dictionary to store the length of sequences ending at each number
+    sequence_lengths = {}
+    max_length = 0
+    best_start = None
+
+    for num in nums:
+        if num not in sequence_lengths:
+            # Check if this number can extend a sequence from num - 1
+            left_length = sequence_lengths.get(num - 1, 0)
+            # Check if this number can start a new sequence that num + 1 extends
+            right_length = sequence_lengths.get(num + 1, 0)
+
+            # The new length of the sequence that num is part of
+            new_length = left_length + 1 + right_length
+
+            # Update the sequences
+            sequence_lengths[num] = new_length
+            sequence_lengths[num - left_length] = new_length
+            sequence_lengths[num + right_length] = new_length
+
+            # Track the maximum sequence length and its starting number
+            if new_length > max_length:
+                max_length = new_length
+                best_start = num - left_length
+
+    return [best_start + i for i in range(max_length)]
+
+# Example usage:
+nums = [-9, -8, 7, -4, -3, -2, 0, 8, 6, 5, 4, 1, 2, 3, 4, 5, 0, 7, 6]
+print(longest_consecutive_sequence(nums))  # Output: [1, 2, 3, 4, 5]
+ 'optparse'
 
 options = {}
 
